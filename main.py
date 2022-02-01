@@ -10,8 +10,8 @@ from tensorflow.keras import layers
 from keras_visualizer import visualizer as viz
 
 
-def graph_divergence(num, depth):
-    data = pnd.read_csv('games.csv', nrows=num)
+def graph_divergence(num, moves):
+    data = pnd.read_csv(r"C:\Users\thera\Desktop\Chess_Data\games.csv", nrows=num)
     np_data = data.to_numpy()
 
     game_states = []
@@ -19,7 +19,7 @@ def graph_divergence(num, depth):
         game_states.append(ch.Board())
 
 
-    games = np.empty([num,depth])
+    games = np.empty([num,moves])
     games[:]=np.nan
     game_history=[]
     unique_history = []
@@ -27,7 +27,7 @@ def graph_divergence(num, depth):
     uniqiue_positions = 0
     progress = 0
 
-    for i in range(1,depth):
+    for i in range(1,moves):
         for j in range(num):
             try:            
                 push = game_states[j].parse_san(np_data[j][i])
@@ -56,7 +56,7 @@ def graph_divergence(num, depth):
                         
             except:
                 continue
-        progress += 1/(depth-1)*100
+        progress += 1/(moves-1)*100
         print(uniqiue_positions)
         print("Progress: " + str(progress) + '%')
 
@@ -67,16 +67,15 @@ def graph_divergence(num, depth):
     plt.show()
 
 
-def load_nn_data(num, depth):
-    data = LCD.create_next_move_array(num, depth)
+def load_nn_data(num, moves):
+    data = LCD.create_next_move_array(num, moves)
     return data[0],data[1]
 
-def train_keras_model(num,depth):
-    x_train,y_train=load_nn_data(num,depth)
+def train_keras_model(num,moves):
+    x_train,y_train=load_nn_data(num,moves)
     #train_data = data.Dataset.from_tensors((x_train, y_train))
     model = keras.Sequential(
        [    
-        
            layers.Dense(65, activation='relu'),
            layers.Dense(64, activation='relu'),
            layers.Dense(64, activation='relu'),
@@ -102,15 +101,16 @@ def use_keras_model(input):
 #train_keras_model(1000,10)
 #load_nn_data(100,10)
 
-# x = LCD.fen_to_list('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1')
-# x = np.array(x)
+x = LCD.fen_to_list('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1')
+x = np.array(x)
 # x = x.reshape(1,-1)
-model = keras.models.load_model('model')
+#model = keras.models.load_model('model')
 
 # y = model.predict(x)
 
+print(x)
 # print(y)
 
-viz(model, format="png", filename='graph',view=True)
+#viz(model, format="png", filename='graph',view=True)
             
 

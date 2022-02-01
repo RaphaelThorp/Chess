@@ -7,7 +7,7 @@ import chess as ch
 
 def create_next_move_array(num, moves, depth):
     moves +=1
-    data = pnd.read_csv('C:\Users\thera\Desktop\Chess_Data\games.csv', nrows=num)
+    data = pnd.read_csv(r"C:\Users\thera\Desktop\Chess_Data\games.csv", nrows=num)
     np_data = data.to_numpy()
 
     move = []
@@ -40,39 +40,39 @@ def create_next_move_array(num, moves, depth):
 
 def fen_to_list(fen):
     dic = {
-        'k':-6,
-        'q':-5,
-        'b':-4,
-        'n':-3,
-        'r':-2,
-        'p':-1,
-        'K':6,
-        'Q':5,
-        'B':4,
-        'N':3,
-        'R':2,
-        'P':1,
-        ' b': -7,
-        ' w': 7
+        'k':[0,0,0,1,1,0],
+        'q':[0,0,0,1,0,1],
+        'b':[0,0,0,1,0,0],
+        'n':[0,0,0,0,1,1],
+        'r':[0,0,0,0,1,0],
+        'p':[0,0,0,0,0,1],
+        'K':[1,1,0,0,0,0],
+        'Q':[1,0,1,0,0,0],
+        'B':[1,0,0,0,0,0],
+        'N':[0,1,1,0,0,0],
+        'R':[0,1,0,0,0,0],
+        'P':[0,0,1,0,0,0],
+        ' b': [0],
+        ' w': [1]
     }
     list = []
     for i in range(len(fen)):
         y = fen[i]
         if fen[i].isspace():
             y = y + fen[i+1]
-            list.append(dic[y])
+            list.extend(dic[y])
             break
 
         if y != '/':
             if y.isnumeric():
                 for j in range(int(y)):
-                    list.append(0)
+                    list.extend([0,0,0,0,0,0])
             else:
-                list.append(dic[y])
+                list.extend(dic[y])
     return list
 
 
 
 
 #fen_to_list(ch.Board().fen())
-create_next_move_array(5,10)
+#create_next_move_array(5,10)
