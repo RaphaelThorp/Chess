@@ -1,0 +1,24 @@
+class Number:
+    def __init__(self, i):
+        self.num = i
+
+    def __add__(self, j):
+        for i in range(-100000000000, 10000000000):
+            if i == self.num + j:
+                return i
+        raise Exception("NO ADDITION FOUND")
+
+i = Number(50)
+
+def fake_func(i, j):
+    print("you hve no power here")
+    return 43
+
+def badThingsHappenHere():
+    Number.__add__ = fake_func 
+
+
+
+badThingsHappenHere()
+
+print(i + 3)
