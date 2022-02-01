@@ -44,12 +44,12 @@ def create_next_move_array(num, moves, depth):
 
 
         percentage = j/num*100
-        # print('Progress: '+str(percentage)+'%', end="\r")
+        print('Progress: '+str(percentage)+'%', end="\r")
 
     input_data=np.array(move)
     output_data=np.array(next_moves)
-    print(input_data.shape)
-    print(output_data.shape)
+    # print(input_data.shape)
+    # print(output_data.shape)
 
 
     return input_data,output_data
@@ -89,7 +89,6 @@ def fen_to_list(fen):
             else:
                 list.extend(dic[y])
     return list
-
 
 
 
