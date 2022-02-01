@@ -13,30 +13,49 @@ def create_next_move_array(num, moves, depth):
     move = []
     next_moves = []
 
+    x = 0
     for j in range(num):
-        move[0].append(fen_to_list(ch.Board().fen()))
-        last_position = ch.Board()
+        ch.Board().reset()
+        input_position = ch.Board()
+        
+        for i in range(moves):
+            last_position = ch.Board.copy(input_position)
+            output_positions=[]
+            usable_move = True
+            for k in range(depth):
+                try:
+                    output_positions_push = last_position.parse_san(np_data[j][i+k])
+                    last_position.push(output_positions_push)
+                    output_positions.extend(fen_to_list(last_position.fen()))
+                    
+                except:
+                    
+                    usable_move = False
+
+            if usable_move == True:
+                move.append(fen_to_list(input_position.fen()))
+                next_moves.append(output_positions)
+    
+                push = input_position.parse_san(np_data[j][i])
+                input_position.push(push)
 
 
-        for i in range(1,moves):
-            try:
-                push = last_position.parse_san(np_data[j][i])
-                last_position.push(push)
-                position = fen_to_list(last_position.fen())
-                move.append(position)
-                
-            except:
-                continue
+                    
+
 
         percentage = j/num*100
-        print('Progress: '+str(percentage)+'%', end="\r")
+        # print('Progress: '+str(percentage)+'%', end="\r")
 
-        next_move_array[0].pop()
-    data=np.array(next_move_array)
+    input_data=np.array(move)
+    output_data=np.array(next_moves)
+    print(input_data.shape)
+    print(output_data.shape)
 
 
-    return data
+    return input_data,output_data
             
+
+
 
 def fen_to_list(fen):
     dic = {
@@ -75,4 +94,4 @@ def fen_to_list(fen):
 
 
 #fen_to_list(ch.Board().fen())
-#create_next_move_array(5,10)
+create_next_move_array(10,10,5)

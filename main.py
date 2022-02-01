@@ -67,19 +67,19 @@ def graph_divergence(num, moves):
     plt.show()
 
 
-def load_nn_data(num, moves):
-    data = LCD.create_next_move_array(num, moves)
-    return data[0],data[1]
+def load_nn_data(num, moves, depth):
+    input_data, output_data = LCD.create_next_move_array(num, moves, depth)
+    return input_data,output_data
 
-def train_keras_model(num,moves):
-    x_train,y_train=load_nn_data(num,moves)
+def train_keras_model(num,moves, depth):
+    x_train,y_train=load_nn_data(num,moves, depth)
     #train_data = data.Dataset.from_tensors((x_train, y_train))
     model = keras.Sequential(
        [    
-           layers.Dense(65, activation='relu'),
+           layers.Dense(385, activation='relu'),
            layers.Dense(64, activation='relu'),
-           layers.Dense(64, activation='relu'),
-           layers.Dense(64)
+           layers.Dense(64, activation='sigmoid'),
+           layers.Dense(385*depth, activation='sigmoid')
        ] 
     )
 
@@ -98,18 +98,18 @@ def use_keras_model(input):
     return output
 
 
-#train_keras_model(1000,10)
+#train_keras_model(1000,12,3)
 #load_nn_data(100,10)
 
 x = LCD.fen_to_list('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1')
 x = np.array(x)
-# x = x.reshape(1,-1)
-#model = keras.models.load_model('model')
+x = x.reshape(1,-1)
+model = keras.models.load_model('model')
 
-# y = model.predict(x)
+y = model.predict(x)
 
-print(x)
-# print(y)
+#print(x.shape)
+print(y)
 
 #viz(model, format="png", filename='graph',view=True)
             

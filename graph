@@ -24,7 +24,7 @@ digraph "Graph" {
 		rank=same
 		10
 		rank=same
-		111111 [label="Input Units: 64 (+54 more)
+		111111 [label="Input Units: 385 (+375 more)
 Activation: relu" color=white fontcolor=black fontsize=18 shape=rectangle]
 	}
 	1 -> 11
@@ -130,7 +130,7 @@ Activation: relu" color=white fontcolor=black fontsize=18 shape=rectangle]
 	subgraph cluster_1 {
 		color=white
 		rank=same
-		101010 [label="Units: 64 (+54 more)
+		101010 [label="Units: 385 (+375 more)
 Activation: relu" color=white fontcolor=black fontsize=18 shape=rectangle]
 		11 [color="#3498db" fontcolor="#3498db" shape=circle style=filled]
 		12 [color="#3498db" fontcolor="#3498db" shape=circle style=filled]
@@ -363,7 +363,7 @@ Activation: relu" color=white fontcolor=black fontsize=18 shape=rectangle]
 		color=white
 		rank=same
 		303030 [label="Units: 64 (+54 more)
-Activation: relu" color=white fontcolor=black fontsize=18 shape=rectangle]
+Activation: sigmoid" color=white fontcolor=black fontsize=18 shape=rectangle]
 		31 [color="#3498db" fontcolor="#3498db" shape=circle style=filled]
 		32 [color="#3498db" fontcolor="#3498db" shape=circle style=filled]
 		33 [color="#3498db" fontcolor="#3498db" shape=circle style=filled]
@@ -477,7 +477,7 @@ Activation: relu" color=white fontcolor=black fontsize=18 shape=rectangle]
 	40 -> 50
 	subgraph cluster_output {
 		node [color="#2ecc71" fontcolor="#2ecc71" shape=circle style=filled]
-		404040 [label="Output Units: 64 (+54 more)
+		404040 [label="Output Units: 1155 (+1145 more)
 Activation: relu" color=white fontcolor=black fontsize=18 shape=rectangle]
 		color=white
 		rank=same
