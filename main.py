@@ -1,4 +1,5 @@
 
+from gc import callbacks
 from pickletools import optimize
 import numpy as np
 import pandas as pnd
@@ -77,9 +78,14 @@ def load_nn_data(num, moves, depth):
 def train_keras_model(num,moves, depth):
     x_train,y_train=load_nn_data(num,moves, depth)
     #train_data = data.Dataset.from_tensors((x_train, y_train))
+
+    callback = keras.callbacks.EarlyStopping(monitor='loss', patience=4)
+
     model = keras.Sequential(
        [    
            layers.Dense(385, activation='relu'),
+           layers.Dense(64, activation='relu'),
+           layers.Dense(32, activation='relu'),
            layers.Dense(64, activation='relu'),
            layers.Dense(128, activation='sigmoid'),
            layers.Dense(256, activation='sigmoid'),
@@ -95,8 +101,8 @@ def train_keras_model(num,moves, depth):
 
     model.compile(loss=loss, optimizer=opt)
     
-    model.fit(x_train, y_train, epochs=epochs, validation_split=val_split, batch_size=batch_size)
-    model.summary()
+    model.fit(x_train, y_train, epochs=epochs, validation_split=val_split, batch_size=batch_size, callbacks=[callback])
+    #model.summary()
 
     file_name = str(num)+'_'+str(moves)+'_'+str(depth)+'--'+loss+'--'+opt+'--'+str(epochs)+'--'+str(batch_size)+'--'+str(val_split)
     save_path = "./models/"+file_name
@@ -118,45 +124,17 @@ def use_keras_model(input):
     output = model.predict(input)
     return output
 
-def get_next_move(fen):
-    x = LCD.fen_to_list(fen)
-    x = np.array(x)
-    x = x.reshape(1,-1)
-
-    model_path="./models/1000_30_1--MSE--Adam--100--20--0.1/model"
-    model = keras.models.load_model(model_path)
-
-    y = model.predict(x)
-    y = np.rint(y)
-    y = np.ndarray.tolist(y)
-    y = y[0]
-
-    position =ch.Board(fen=fen)
-    legal_moves = list(position.legal_moves)
-    found_move = False
-    for i in range(len(legal_moves)):
-        position = ch.Board(fen=fen)
-        push = legal_moves[i]
-        position.push(push)
-        position_as_list =LCD.fen_to_list(position.fen())
-        if y == position_as_list:
-            next_move = legal_moves[i]
-            found_move = True
-            break
-    if found_move == False:
-        print('No move could be decided')
-    else:
-        return next_move
 
 
 
 
-#train_keras_model(100,30,5)
+
+train_keras_model(10000,45,3)
 #load_nn_data(100,10)
 
-fen = 'rnbq1rk1/ppppbppp/5n2/4p3/4P3/2NP1N2/PPP2PPP/R1BQKB1R w KQ - 5 5'
-next_move = get_next_move(fen)
-print(next_move)
+#fen = 'rnbq1rk1/ppppbppp/5n2/4p3/4P3/2NP1N2/PPP2PPP/R1BQKB1R w KQ - 5 5'
+#next_move = get_next_move(fen)
+#print(next_move)
 
 # print(x.shape)
 
