@@ -1,4 +1,5 @@
 import chess
+import numpy
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from pywinauto import application
@@ -100,4 +101,4 @@ while not board.is_game_over():
     board.push(result)
     print(board, "\n")
 
-    time.sleep(3)
+    time.sleep(0.1)
