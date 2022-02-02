@@ -154,7 +154,7 @@ def get_next_move(fen):
 #train_keras_model(100,30,5)
 #load_nn_data(100,10)
 
-fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
+fen = 'rnbq1rk1/ppppbppp/5n2/4p3/4P3/2NP1N2/PPP2PPP/R1BQKB1R w KQ - 5 5'
 next_move = get_next_move(fen)
 print(next_move)
 
