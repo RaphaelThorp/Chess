@@ -82,13 +82,12 @@ def train_keras_model(num,moves, depth):
 
     model = keras.Sequential(
        [    
-           layers.Dense(385, activation='relu'),
-           layers.Dense(64, activation='relu'),
-           layers.Dense(32, activation='relu'),
+           layers.Dense(384, activation='relu'),
+           layers.Dense(64, activation='sigmoid'),
            layers.Dense(64, activation='relu'),
            layers.Dense(128, activation='sigmoid'),
-           layers.Dense(256, activation='sigmoid'),
-           layers.Dense(385*depth, activation='sigmoid')
+           layers.Dense(256, activation='relu'),
+           layers.Dense(384*depth, activation='sigmoid')
        ] 
     )
 
@@ -104,7 +103,8 @@ def train_keras_model(num,moves, depth):
     #model.summary()
     #TODO: Add summary save file
 
-    file_name = str(num)+'_'+str(moves)+'_'+str(depth)+'--'+loss+'--'+opt+'--'+str(epochs)+'--'+str(batch_size)+'--'+str(val_split)
+    #file_name = str(num)+'_'+str(moves)+'_'+str(depth)+'--'+loss+'--'+opt+'--'+str(epochs)+'--'+str(batch_size)+'--'+str(val_split)
+    file_name = 'openings'
     save_path = "./models/"+file_name
     if os.path.isdir(save_path):
         model.save(save_path+"/model")
@@ -125,7 +125,7 @@ def use_keras_model(input):
     return output
 
 
-train_keras_model(10000,45,3)
+train_keras_model(100000,14,3)
 #load_nn_data(100,10)
 
 #fen = 'rnbq1rk1/ppppbppp/5n2/4p3/4P3/2NP1N2/PPP2PPP/R1BQKB1R w KQ - 5 5'

@@ -62,27 +62,26 @@ def create_score_array(num,moves):
 
 def fen_to_list(fen):
     dic = {
-        'k':[0,0,0,1,1,0],
-        'q':[0,0,0,1,0,1],
-        'b':[0,0,0,1,0,0],
-        'n':[0,0,0,0,1,1],
-        'r':[0,0,0,0,1,0],
-        'p':[0,0,0,0,0,1],
-        'K':[1,1,0,0,0,0],
-        'Q':[1,0,1,0,0,0],
-        'B':[1,0,0,0,0,0],
-        'N':[0,1,1,0,0,0],
-        'R':[0,1,0,0,0,0],
-        'P':[0,0,1,0,0,0],
-        ' b': [0],
-        ' w': [1]
+        'k':[-1,0,0,0,0,0],
+        'q':[0,-1,0,0,0,0],
+        'b':[0,0,-1,0,0,0],
+        'n':[0,0,0,-1,0,0],
+        'r':[0,0,0,0,-1,0],
+        'p':[0,0,0,0,0,-1],
+        'K':[1,0,0,0,0,0],
+        'Q':[0,1,0,0,0,0],
+        'B':[0,0,1,0,0,0],
+        'N':[0,0,0,1,0,0],
+        'R':[0,0,0,0,1,0],
+        'P':[0,0,0,0,0,1],
+        'b': [0],
+        'w': [1]
     }
     list = []
     for i in range(len(fen)):
         y = fen[i]
         if fen[i].isspace():
-            y = y + fen[i+1]
-            list.extend(dic[y])
+            player =fen[i+1]
             break
 
         if y != '/':
@@ -91,9 +90,14 @@ def fen_to_list(fen):
                     list.extend([0,0,0,0,0,0])
             else:
                 list.extend(dic[y])
+    if player == 1:
+        np_list = np.array(list)
+        np_list = -1*np_list
+        list = np.ndarray.tolist(np_list)
     return list
 
 
 
-#fen_to_list(ch.Board().fen())
-create_next_move_array(10,10,5)
+# print(fen_to_list(ch.Board().fen()))
+print(ch.Board().fen())
+#create_next_move_array(10,10,5)
