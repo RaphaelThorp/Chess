@@ -79,7 +79,7 @@ def train_keras_model(num,moves, depth):
     x_train,y_train=load_nn_data(num,moves, depth)
     #train_data = data.Dataset.from_tensors((x_train, y_train))
 
-    callback = keras.callbacks.EarlyStopping(monitor='loss', patience=4)
+    callback = keras.callbacks.EarlyStopping(monitor='loss', patience=4, mode='auto')
 
     model = keras.Sequential(
        [    
@@ -103,6 +103,7 @@ def train_keras_model(num,moves, depth):
     
     model.fit(x_train, y_train, epochs=epochs, validation_split=val_split, batch_size=batch_size, callbacks=[callback])
     #model.summary()
+    #TODO: Add summary save file
 
     file_name = str(num)+'_'+str(moves)+'_'+str(depth)+'--'+loss+'--'+opt+'--'+str(epochs)+'--'+str(batch_size)+'--'+str(val_split)
     save_path = "./models/"+file_name

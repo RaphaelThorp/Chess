@@ -1,9 +1,7 @@
 import chess
-import numpy
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from pywinauto import application
-from pywinauto import Desktop
 import time
 import os
 import sys
@@ -84,6 +82,7 @@ while not board.is_game_over():
             break
 
     result = predict.get_next_move(board.fen())
+    print(result)
     origin = find_loc(str(result)[:2])
     target = find_loc(str(result)[2:4])
     offset = [a - b for a, b in zip(target, origin)]
