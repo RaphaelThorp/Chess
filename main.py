@@ -77,7 +77,6 @@ def load_nn_data(num, moves, depth):
 
 def train_keras_model(num,moves, depth):
     x_train,y_train=load_nn_data(num,moves, depth)
-    #train_data = data.Dataset.from_tensors((x_train, y_train))
 
     callback = keras.callbacks.EarlyStopping(monitor='loss', patience=4, mode='auto')
 
@@ -124,10 +123,6 @@ def use_keras_model(input):
     model = keras.load_model('model')
     output = model.predict(input)
     return output
-
-
-
-
 
 
 train_keras_model(10000,45,3)

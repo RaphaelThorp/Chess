@@ -55,6 +55,9 @@ def create_next_move_array(num, moves, depth):
     return input_data,output_data
             
 
+def create_score_array(num,moves):
+    x=1
+
 
 
 def fen_to_list(fen):
