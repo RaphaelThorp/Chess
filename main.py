@@ -92,7 +92,7 @@ def train_keras_model(num,moves, depth):
     )
 
     epochs = 100
-    batch_size = 20
+    batch_size = 100
     val_split = 0.1
     loss = "MSE"
     opt = "Adam"
