@@ -126,7 +126,7 @@ def use_keras_model(input):
     return output
 
 
-train_keras_model(100,100,4)
+train_keras_model(1000,100,4)
 #load_nn_data(100,10)
 
 #fen = 'rnbq1rk1/ppppbppp/5n2/4p3/4P3/2NP1N2/PPP2PPP/R1BQKB1R w KQ - 5 5'

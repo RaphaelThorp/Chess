@@ -11,7 +11,12 @@ import glob
 from get_fen import get_fen
 import subprocess
 
-subprocess.Popen('chrome.exe chess.com/play/online --remote-debugging-port=9222 --user-data-dir="C:\ChromeProfile"')
+
+mode = 'computer'
+skill = 0.99
+
+
+subprocess.Popen('chrome.exe chess.com/play/computer --remote-debugging-port=9222 --user-data-dir="C:\ChromeProfile"')
 
 sys.path.insert(1, r'C:\Users\thera\Desktop\Python\Chess')
 
@@ -23,8 +28,6 @@ os.chdir(running_script_directory)
 for file in glob.glob("stockfish*"):
     print("Found Stockfish binary version", file.strip("stockfish_").strip(".exe"))
     stockfish = file
-
-mode = 'online'
 
 board = chess.Board()
 chrome_options = webdriver.ChromeOptions()
@@ -114,7 +117,7 @@ while not board.is_game_over():
             break
 
 
-    result = predict.get_next_move(board.fen())
+    result = predict.get_next_move(board.fen(), skill)
     if player in fen:
         origin = find_loc(str(result)[:2])
         target = find_loc(str(result)[2:4])
