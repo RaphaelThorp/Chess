@@ -9,6 +9,9 @@ import os
 import sys
 import glob
 from get_fen import get_fen
+import subprocess
+
+subprocess.Popen('chrome.exe chess.com/play/online --remote-debugging-port=9222 --user-data-dir="C:\ChromeProfile"')
 
 sys.path.insert(1, r'C:\Users\thera\Desktop\Python\Chess')
 
@@ -27,7 +30,8 @@ board = chess.Board()
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument("--log-level=3")
-driver = webdriver.Chrome("chromedriver.exe", options=chrome_options)
+chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
+driver = webdriver.Chrome(r"C:\Users\thera\Desktop\Python\Chess\bot\src\chromedriver.exe", options=chrome_options)
 with open("board.txt") as f:
     array = [i.split() for i in f]
 
@@ -87,14 +91,6 @@ if mode == 'online':
         except:
             None
     
-    while True:
-        #TODO: make autoclick work
-        try:
-            guest = driver.find_element(By.XPATH,"//button[@data-cy = 'authentication-modal-play-as-guest']")
-            guest.click()
-            break
-        except:
-            None
         
 
 print(initial_fen, "\n")
