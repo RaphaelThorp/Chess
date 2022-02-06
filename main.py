@@ -6,7 +6,9 @@ import pandas as pnd
 import chess as ch
 from matplotlib import pyplot as plt
 import load_chess_data as LCD
-from tensorflow import keras, data
+from tensorflow import keras
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, Dense, Dropout
 
 from tensorflow.keras import layers
 from keras_visualizer import visualizer as viz
@@ -61,7 +63,6 @@ def graph_divergence(num, moves):
             except:
                 continue
         progress += 1/(moves-1)*100
-        print(uniqiue_positions)
         print("Progress: " + str(progress) + '%')
 
 
@@ -78,21 +79,21 @@ def load_nn_data(num, moves, depth):
 def train_keras_model(num,moves, depth):
     x_train,y_train=load_nn_data(num,moves, depth)
 
-    callback = keras.callbacks.EarlyStopping(monitor='loss', patience=4, mode='auto')
+    callback = keras.callbacks.EarlyStopping(monitor='val_loss', patience=4, mode='auto')
 
-    model = keras.Sequential(
-       [    
-           layers.Dense(384, activation='relu'),
-           layers.Dense(64, activation='sigmoid'),
-           layers.Dense(64, activation='relu'),
-           layers.Dense(128, activation='sigmoid'),
-           layers.Dense(256, activation='relu'),
-           layers.Dense(384*depth, activation='sigmoid')
-       ] 
-    )
+    input_layer = Input(shape=(384,))
+    layer1 = Dense(128, activation='relu')(input_layer)
+    dropout1 = Dropout(0.5)(layer1)
+    layer2 = Dense(64, activation='relu')(dropout1)
+    #dropout2 = Dropout(0.5)(layer2)
+    layer3 = Dense(128, activation='relu')(layer2)
+    layer4 = Dense(256, activation='sigmoid')(layer3)
+    output_layer = Dense(384*depth, activation='linear')(layer4)
+
+    model = Model(inputs=input_layer, outputs=output_layer)
 
     epochs = 100
-    batch_size = 100
+    batch_size = 20
     val_split = 0.1
     loss = "MSE"
     opt = "Adam"
@@ -125,7 +126,7 @@ def use_keras_model(input):
     return output
 
 
-train_keras_model(100000,14,3)
+train_keras_model(100,100,4)
 #load_nn_data(100,10)
 
 #fen = 'rnbq1rk1/ppppbppp/5n2/4p3/4P3/2NP1N2/PPP2PPP/R1BQKB1R w KQ - 5 5'

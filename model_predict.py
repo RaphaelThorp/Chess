@@ -9,7 +9,7 @@ def get_next_move(fen):
     x = np.array(x)
     x = x.reshape(1,-1)
 
-    model_path=r"C:\Users\thera\Desktop\Python\Chess\models\10000_45_3--MSE--Adam--100--20--0.1\model"
+    model_path=r"C:\Users\thera\Desktop\Python\Chess\models\openings\model"
     model = keras.models.load_model(model_path)
 
     y = model.predict(x)
@@ -25,7 +25,7 @@ def get_next_move(fen):
         position.push(push)
         position_as_list =LCD.fen_to_list(position.fen())
         
-        mse = np.mean(np.square(np.array(y[0:385])-np.array(position_as_list)))
+        mse = np.mean(np.square(np.array(y[0:384])-np.array(position_as_list)))
 
         for i in range(3):
             if mse <= move_mse_fen[0][1]:
