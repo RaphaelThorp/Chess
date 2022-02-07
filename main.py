@@ -71,24 +71,20 @@ def graph_divergence(num, moves):
 
     plt.show()
 
-
-def load_nn_data(num, moves, depth):
-    input_data, output_data = LCD.create_next_move_array(num, moves, depth)
-    return input_data,output_data
-
-def train_keras_model(num,moves, depth):
-    x_train,y_train=load_nn_data(num,moves, depth)
+def train_keras_model(num,moves,depth):
+    x_train,y_train=LCD.create_score_array(num,moves)
 
     callback = keras.callbacks.EarlyStopping(monitor='val_loss', patience=4, mode='auto')
 
     input_layer = Input(shape=(384,))
-    layer1 = Dense(128, activation='relu')(input_layer)
+    layer1 = Dense(256, activation='relu')(input_layer)
     dropout1 = Dropout(0.5)(layer1)
-    layer2 = Dense(64, activation='relu')(dropout1)
+    layer2 = Dense(128, activation='relu')(dropout1)
     #dropout2 = Dropout(0.5)(layer2)
-    layer3 = Dense(128, activation='relu')(layer2)
-    layer4 = Dense(256, activation='sigmoid')(layer3)
-    output_layer = Dense(384*depth, activation='linear')(layer4)
+    layer3 = Dense(64, activation='relu')(layer2)
+    layer4 = Dense(16, activation='sigmoid')(layer3)
+    output_layer = Dense(1, activation='linear')(layer4)
+    #output_layer = Dense(384*depth, activation='linear')(layer4)
 
     model = Model(inputs=input_layer, outputs=output_layer)
 
@@ -105,7 +101,7 @@ def train_keras_model(num,moves, depth):
     #TODO: Add summary save file
 
     #file_name = str(num)+'_'+str(moves)+'_'+str(depth)+'--'+loss+'--'+opt+'--'+str(epochs)+'--'+str(batch_size)+'--'+str(val_split)
-    file_name = 'openings'
+    file_name = 'score'
     save_path = "./models/"+file_name
     if os.path.isdir(save_path):
         model.save(save_path+"/model")
@@ -126,7 +122,7 @@ def use_keras_model(input):
     return output
 
 
-train_keras_model(100,100,4)
+train_keras_model(1000,100,4)
 #load_nn_data(100,10)
 
 #fen = 'rnbq1rk1/ppppbppp/5n2/4p3/4P3/2NP1N2/PPP2PPP/R1BQKB1R w KQ - 5 5'

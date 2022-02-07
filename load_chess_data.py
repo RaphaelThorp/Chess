@@ -2,11 +2,7 @@ import numpy as np
 import pandas as pnd
 import chess as ch
 
-
-
-
 def create_next_move_array(num, moves, depth):
-    moves +=1
     data = pnd.read_csv(r"C:\Users\thera\Desktop\Chess_Data\games.csv", nrows=num)
     np_data = data.to_numpy()
 
@@ -55,7 +51,33 @@ def create_next_move_array(num, moves, depth):
             
 
 def create_score_array(num,moves):
-    x=1
+    data = pnd.read_csv(r"C:\Users\thera\Desktop\Chess_Data\games.csv", nrows=num)
+    np_data = data.to_numpy()
+
+    move = []
+    scores = []
+    for j in range(num):
+        ch.Board().reset()
+        position = ch.Board()
+        
+        for i in range(moves):
+            try:
+                push = position.parse_san(np_data[j][i])
+                position.push(push)
+                score = float(np_data[j][i+200])
+            except:
+                break
+
+            move.append(fen_to_list(position.fen()))
+            scores.append(score)
+
+        percentage = j/num*100
+        print('Progress: '+str(percentage)+'%', end="\r")
+
+    input_data=np.array(move)
+    output_data=np.array(scores)
+
+    return input_data, output_data
 
 
 
