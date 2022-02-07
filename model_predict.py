@@ -1,6 +1,4 @@
 from random import choice
-
-from sympy import false
 import load_chess_data as LCD
 import numpy as np
 from tensorflow import keras
