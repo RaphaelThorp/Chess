@@ -1,5 +1,4 @@
 import chess
-import numpy
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
@@ -11,7 +10,13 @@ import glob
 from get_fen import get_fen
 import subprocess
 
-subprocess.Popen('chrome.exe chess.com/play/online --remote-debugging-port=9222 --user-data-dir="C:\ChromeProfile"')
+
+mode = 'online'
+skill = 0.9
+
+command = 'chrome.exe chess.com/play/' +mode+ ' --remote-debugging-port=9222 --user-data-dir="C:\ChromeProfile"'
+
+subprocess.Popen(command)
 
 sys.path.insert(1, r'C:\Users\thera\Desktop\Python\Chess')
 
@@ -23,8 +28,6 @@ os.chdir(running_script_directory)
 for file in glob.glob("stockfish*"):
     print("Found Stockfish binary version", file.strip("stockfish_").strip(".exe"))
     stockfish = file
-
-mode = 'online'
 
 board = chess.Board()
 chrome_options = webdriver.ChromeOptions()
@@ -90,7 +93,8 @@ if mode == 'online':
             break
         except:
             None
-    
+
+#game_tab: //*[@data-tab = 'newGame']
         
 
 print(initial_fen, "\n")
@@ -114,7 +118,7 @@ while not board.is_game_over():
             break
 
 
-    result = predict.get_next_move(board.fen())
+    result = predict.get_next_move(board.fen(), skill)
     if player in fen:
         origin = find_loc(str(result)[:2])
         target = find_loc(str(result)[2:4])
