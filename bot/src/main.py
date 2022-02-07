@@ -1,5 +1,4 @@
 import chess
-import numpy
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
@@ -12,11 +11,12 @@ from get_fen import get_fen
 import subprocess
 
 
-mode = 'computer'
-skill = 0.99
+mode = 'online'
+skill = 0.9
 
+command = 'chrome.exe chess.com/play/' +mode+ ' --remote-debugging-port=9222 --user-data-dir="C:\ChromeProfile"'
 
-subprocess.Popen('chrome.exe chess.com/play/computer --remote-debugging-port=9222 --user-data-dir="C:\ChromeProfile"')
+subprocess.Popen(command)
 
 sys.path.insert(1, r'C:\Users\thera\Desktop\Python\Chess')
 
@@ -93,7 +93,8 @@ if mode == 'online':
             break
         except:
             None
-    
+
+#game_tab: //*[@data-tab = 'newGame']
         
 
 print(initial_fen, "\n")
